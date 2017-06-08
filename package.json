@@ -17,10 +17,16 @@
   },
   "homepage": "https://github.com/ilyamelkomukov/train-uno#readme",
   "devDependencies": {
+    "autoprefixer": "^7.1.1",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-connect": "^5.0.0",
+    "gulp-if": "^2.0.2",
     "gulp-less": "^3.3.0",
+    "gulp-postcss": "^7.0.0",
     "gulp-pug": "^3.3.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "browserslist": [">1%",
+  "last 2 versions",
+  "IE 9"]
 }

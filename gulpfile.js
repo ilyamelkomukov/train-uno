@@ -5,7 +5,9 @@ const gulp = require('gulp'),
   path = require('path'),
   less = require('gulp-less'),
   connect = require('gulp-connect'),
-  pug = require('gulp-pug');
+  pug = require('gulp-pug'),
+  postcss = require('gulp-postcss'),
+  autoprefixer = require('autoprefixer');
   /***** end of Gulp plugins *****/
 
 
@@ -14,7 +16,7 @@ var baseDir = __dirname;
 
 /***** start of Input paths *****/
 var frontend = path.resolve(baseDir, './frontend'),
-  inputStyles = path.resolve(frontend, './styles/**/main.less'),
+  inputStyles = path.resolve(frontend, './styles/'),
   inputAssets = path.resolve(frontend, './assets'),
   inputLayouts = path.resolve(frontend, './components/Main/index.pug');
 /***** end of Input paths *****/
@@ -29,13 +31,27 @@ var build = path.resolve(baseDir, './build'),
 
 /***** start of Styles task *****/
 // all stuff with styles, less, css and others in here
-gulp.task('styles', () => {
 
-  return gulp.src(inputStyles)
+gulp.task('styles', () => {
+  return gulp.src(inputStyles + '/main.less')
     .pipe(less())
-    .pipe(gulp.dest(path.resolve(build, 'styles/')));
+    .pipe(postcss( [autoprefixer()] ))
+    .pipe(gulp.dest(outputStyles));
 });
+
+// gulp.task('afterLess', () => {
+//
+//   return gulp.src(outputStyles + '/main.css')
+//
+//     .pipe(gulp.dest(outputStyles));
+// });
 /***** end of Styles task *****/
+
+
+// gulp.task('styles', gulp.series('less', 'afterLess'), (done) => {
+//   done();
+// });
+
 
 
 /***** start of Pics task *****/
