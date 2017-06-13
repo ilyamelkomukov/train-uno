@@ -4,7 +4,9 @@
   "description": "train with uno template",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "set NODE_ENV=development&& gulp",
+    "gulp-p": "set NODE_ENV=production&& gulp"
   },
   "repository": {
     "type": "git",
@@ -18,15 +20,19 @@
   "homepage": "https://github.com/ilyamelkomukov/train-uno#readme",
   "devDependencies": {
     "autoprefixer": "^7.1.1",
+    "cssnano": "^3.10.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-connect": "^5.0.0",
     "gulp-if": "^2.0.2",
     "gulp-less": "^3.3.0",
     "gulp-postcss": "^7.0.0",
-    "gulp-pug": "^3.3.0"
+    "gulp-pug": "^3.3.0",
+    "gulp-sourcemaps": "^2.6.0"
   },
   "dependencies": {},
-  "browserslist": [">1%",
-  "last 2 versions",
-  "IE 9"]
+  "browserslist": [
+    ">1%",
+    "last 2 versions",
+    "IE 9"
+  ]
 }

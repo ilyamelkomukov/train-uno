@@ -1,5 +1,7 @@
 'use strict';
 
+var isDev = process.env.NODE_ENV == 'development';
+
 /***** start of Gulp plugins *****/
 const gulp = require('gulp'),
   path = require('path'),
@@ -7,7 +9,8 @@ const gulp = require('gulp'),
   connect = require('gulp-connect'),
   pug = require('gulp-pug'),
   postcss = require('gulp-postcss'),
-  autoprefixer = require('autoprefixer');
+  sourcemaps = require('gulp-sourcemaps'),
+  gulpIf = require('gulp-if');
   /***** end of Gulp plugins *****/
 
 
@@ -31,27 +34,16 @@ var build = path.resolve(baseDir, './build'),
 
 /***** start of Styles task *****/
 // all stuff with styles, less, css and others in here
-
 gulp.task('styles', () => {
+
   return gulp.src(inputStyles + '/main.less')
+    .pipe(gulpIf(isDev, sourcemaps.init()))
     .pipe(less())
-    .pipe(postcss( [autoprefixer()] ))
+    .pipe(postcss())
+    .pipe(gulpIf(isDev, sourcemaps.write('./')))
     .pipe(gulp.dest(outputStyles));
 });
-
-// gulp.task('afterLess', () => {
-//
-//   return gulp.src(outputStyles + '/main.css')
-//
-//     .pipe(gulp.dest(outputStyles));
-// });
 /***** end of Styles task *****/
-
-
-// gulp.task('styles', gulp.series('less', 'afterLess'), (done) => {
-//   done();
-// });
-
 
 
 /***** start of Pics task *****/
@@ -74,11 +66,12 @@ gulp.task('layouts', () => {
 
 /***** start of Connect task *****/
 // up and run local server
-gulp.task('connect', () => {
+gulp.task('connect', (done) => {
   connect.server({
     root: build,
     port: 3000
   });
+  done();
 });
 /***** end of Connect task *****/
 
