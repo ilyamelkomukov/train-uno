@@ -50,7 +50,7 @@ gulp.task('styles', () => {
 // all stuff with pics, imgs maybe gifs in here
 gulp.task('pics', () => {
   return gulp.src(`${inputAssets}/imgs/**/*.*`)
-    .pipe(gulp.dest(path.resolve(outputAssets, './imgs')));
+    .pipe(gulp.dest(outputAssets + './imgs'));
 });
 /***** end of Pics task *****/
 
@@ -64,6 +64,15 @@ gulp.task('layouts', () => {
 /***** end of Layouts task *****/
 
 
+/***** start of Fonts task *****/
+gulp.task('fonts', () => {
+
+  return gulp.src(inputAssets + '/fonts/**.*')
+    .pipe(gulp.dest(outputAssets + '/fonts/'));
+});
+/***** end of Fonts task *****/
+
+
 /***** start of Connect task *****/
 // up and run local server
 gulp.task('connect', (done) => {
@@ -75,7 +84,7 @@ gulp.task('connect', (done) => {
 });
 /***** end of Connect task *****/
 
-gulp.task('default', gulp.series(gulp.parallel('styles', 'pics', 'layouts'), 'connect'), (done) => {
+gulp.task('default', gulp.series(gulp.parallel('styles', 'pics', 'layouts', 'fonts'), 'connect'), (done) => {
   done();
 });
 
