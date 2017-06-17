@@ -10,7 +10,8 @@ const gulp = require('gulp'),
   pug = require('gulp-pug'),
   postcss = require('gulp-postcss'),
   sourcemaps = require('gulp-sourcemaps'),
-  gulpIf = require('gulp-if');
+  gulpIf = require('gulp-if'),
+  del = require('del');
   /***** end of Gulp plugins *****/
 
 
@@ -18,16 +19,16 @@ const gulp = require('gulp'),
 var baseDir = __dirname;
 
 /***** start of Input paths *****/
-var frontend = path.resolve(baseDir, './frontend'),
-  inputStyles = path.resolve(frontend, './styles/'),
-  inputAssets = path.resolve(frontend, './assets'),
-  inputLayouts = path.resolve(frontend, './components/Main/index.pug');
+var frontend = `${baseDir}/frontend/`,
+  inputStyles = `${frontend}/styles/`,
+  inputAssets = `${frontend}/assets/`,
+  inputLayouts = `${frontend}/components/Main/index.pug`;
 /***** end of Input paths *****/
 
 /***** start of Output paths *****/
-var build = path.resolve(baseDir, './build'),
-  outputStyles = path.resolve(build, './styles'),
-  outputAssets = path.resolve(build, './assets');
+var build = `${baseDir}/build`,
+  outputStyles = `${build}/styles/`,
+  outputAssets = `${build}/assets/`;
 /***** end of Output paths *****/
 /***** end of Project paths *****/
 
@@ -36,7 +37,7 @@ var build = path.resolve(baseDir, './build'),
 // all stuff with styles, less, css and others in here
 gulp.task('styles', () => {
 
-  return gulp.src(inputStyles + '/main.less')
+  return gulp.src(`${inputStyles}/main.less`)
     .pipe(gulpIf(isDev, sourcemaps.init()))
     .pipe(less())
     .pipe(postcss())
@@ -49,8 +50,8 @@ gulp.task('styles', () => {
 /***** start of Pics task *****/
 // all stuff with pics, imgs maybe gifs in here
 gulp.task('pics', () => {
-  return gulp.src(`${inputAssets}/imgs/**/*.*`)
-    .pipe(gulp.dest(outputAssets + './imgs'));
+  return gulp.src(`${inputAssets}/imgs/**/*.*`, {since: gulp.lastRun('pics')})
+    .pipe(gulp.dest(`${outputAssets}/imgs/`));
 });
 /***** end of Pics task *****/
 
@@ -67,10 +68,18 @@ gulp.task('layouts', () => {
 /***** start of Fonts task *****/
 gulp.task('fonts', () => {
 
-  return gulp.src(inputAssets + '/fonts/**.*')
-    .pipe(gulp.dest(outputAssets + '/fonts/'));
+  return gulp.src(`${inputAssets}/fonts/*.*`, {since: gulp.lastRun('fonts')})
+    .pipe(gulp.dest(`${outputAssets}/fonts/`));
 });
 /***** end of Fonts task *****/
+
+
+/***** start of Clean task *****/
+// delete the directory for build with all of its content
+gulp.task('clean', () => {
+  return del([`${build}/**/*.*`]);
+});
+/***** end of Clean task *****/
 
 
 /***** start of Connect task *****/
@@ -84,7 +93,21 @@ gulp.task('connect', (done) => {
 });
 /***** end of Connect task *****/
 
-gulp.task('default', gulp.series(gulp.parallel('styles', 'pics', 'layouts', 'fonts'), 'connect'), (done) => {
+
+gulp.task('watch', (done) => {
+  gulp.watch(`${frontend}/components/**/*.less`, gulp.series('styles'));
+  gulp.watch(`${frontend}/components/**/*.pug`, gulp.series('layouts'));
+  gulp.watch(`${inputAssets}/fonts/**/*.*`, gulp.series('fonts'));
+  gulp.watch(`${inputAssets}/pics/**/*.*`, gulp.series('pics'));
+  done();
+});
+
+
+gulp.task('default', gulp.series(
+  'clean',
+    gulp.parallel('styles', 'layouts', 'fonts', 'pics'),
+  'connect',
+  'watch'), (done) => {
   done();
 });
 

@@ -2,5 +2,16 @@
   font: bold 8em 'Honey Script';
   text-align: center;
   color: @main-text-color;
-  vertical-align: middle;
+}
+
+.hero-text__billboard {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::selection {
+    color: @info-text-color;
+    background-color: @main-text-color;
+  }
 }
