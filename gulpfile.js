@@ -11,7 +11,9 @@ const gulp = require('gulp'),
   postcss = require('gulp-postcss'),
   sourcemaps = require('gulp-sourcemaps'),
   gulpIf = require('gulp-if'),
-  del = require('del');
+  del = require('del'),
+  imagemin = require('gulp-imagemin'),
+  newer = require('gulp-newer');
   /***** end of Gulp plugins *****/
 
 
@@ -51,6 +53,8 @@ gulp.task('styles', () => {
 // all stuff with pics, imgs maybe gifs in here
 gulp.task('pics', () => {
   return gulp.src(`${inputAssets}/imgs/**/*.*`, {since: gulp.lastRun('pics')})
+    .pipe(newer(`${outputAssets}/imgs/`))
+    .pipe(imagemin())
     .pipe(gulp.dest(`${outputAssets}/imgs/`));
 });
 /***** end of Pics task *****/
@@ -69,6 +73,7 @@ gulp.task('layouts', () => {
 gulp.task('fonts', () => {
 
   return gulp.src(`${inputAssets}/fonts/*.*`, {since: gulp.lastRun('fonts')})
+    .pipe(newer(`${outputAssets}/fonts/`))
     .pipe(gulp.dest(`${outputAssets}/fonts/`));
 });
 /***** end of Fonts task *****/
@@ -98,7 +103,7 @@ gulp.task('watch', (done) => {
   gulp.watch(`${frontend}/components/**/*.less`, gulp.series('styles'));
   gulp.watch(`${frontend}/components/**/*.pug`, gulp.series('layouts'));
   gulp.watch(`${inputAssets}/fonts/**/*.*`, gulp.series('fonts'));
-  gulp.watch(`${inputAssets}/pics/**/*.*`, gulp.series('pics'));
+  gulp.watch(`${inputAssets}/imgs/**/*.*`, gulp.series('pics'));
   done();
 });
 
@@ -110,21 +115,3 @@ gulp.task('default', gulp.series(
   'watch'), (done) => {
   done();
 });
-
-
-
-
-
-
-
-// just for testing purposes
-/*
-function hello() {
-  console.log('Hello');
-  console.log(frontend);
-
-  console.log(baseDir);
-  console.log(frontend);
-  console.log(styles);
-}
-*/
