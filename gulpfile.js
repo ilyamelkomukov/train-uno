@@ -24,7 +24,7 @@ var baseDir = __dirname;
 var frontend = `${baseDir}/frontend/`,
   inputStyles = `${frontend}/styles/`,
   inputAssets = `${frontend}/assets/`,
-  inputLayouts = `${frontend}/components/Main/index.pug`;
+  inputLayouts = `${frontend}/components/index.pug`;
 /***** end of Input paths *****/
 
 /***** start of Output paths *****/
