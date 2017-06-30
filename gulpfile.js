@@ -4,7 +4,6 @@ var isDev = process.env.NODE_ENV == 'development';
 
 /***** start of Gulp plugins *****/
 const gulp = require('gulp'),
-  path = require('path'),
   less = require('gulp-less'),
   connect = require('gulp-connect'),
   pug = require('gulp-pug'),
@@ -13,7 +12,10 @@ const gulp = require('gulp'),
   gulpIf = require('gulp-if'),
   del = require('del'),
   imagemin = require('gulp-imagemin'),
-  newer = require('gulp-newer');
+  newer = require('gulp-newer'),
+  uglify = require('gulp-uglify'),
+  gulpWebpack = require('gulp-webpack'),
+  webpack = require('webpack');
   /***** end of Gulp plugins *****/
 
 
@@ -24,13 +26,15 @@ var baseDir = __dirname;
 var frontend = `${baseDir}/frontend/`,
   inputStyles = `${frontend}/styles/`,
   inputAssets = `${frontend}/assets/`,
-  inputLayouts = `${frontend}/components/index.pug`;
+  inputLayouts = `${frontend}/components/index.pug`,
+  inputScripts = `${frontend}/scripts/`;
 /***** end of Input paths *****/
 
 /***** start of Output paths *****/
 var build = `${baseDir}/build`,
   outputStyles = `${build}/styles/`,
-  outputAssets = `${build}/assets/`;
+  outputAssets = `${build}/assets/`,
+  outputScripts = `${build}/scripts/`
 /***** end of Output paths *****/
 /***** end of Project paths *****/
 
@@ -87,6 +91,43 @@ gulp.task('clean', () => {
 /***** end of Clean task *****/
 
 
+/***** start of Scripts task *****/
+gulp.task('scripts', () => {
+
+  gulp.src(`${inputScripts}/jquery.js`, {since: gulp.lastRun('scripts')})
+    .pipe(gulp.dest(outputScripts));
+
+  return gulp.src(`${inputScripts}/main.js`)
+    .pipe(gulpWebpack({
+      devtool: isDev ? 'cheap-eval-source-map' : false,
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ["env", {
+                  "targets": {
+                    "browsers": [">1%", "last 10 versions", "IE 9"]
+                  }
+                }]
+              ]
+            }
+          }
+        ]
+      },
+      output: {
+        filename: isDev ? '[name].js' : '[name]-[hash].js'
+      }
+    }, webpack))
+    .pipe(gulpIf(!isDev, uglify()))
+    .pipe(gulp.dest(outputScripts));
+});
+/***** end of Scripts task *****/
+
+
 /***** start of Connect task *****/
 // up and run local server
 gulp.task('connect', (done) => {
@@ -100,17 +141,18 @@ gulp.task('connect', (done) => {
 
 
 gulp.task('watch', (done) => {
-  gulp.watch(`${frontend}/components/**/*.less`, gulp.series('styles'));
+  gulp.watch([`${frontend}/components/**/*.less`, `${inputStyles}/**/*.less`], gulp.series('styles'));
   gulp.watch(`${frontend}/components/**/*.pug`, gulp.series('layouts'));
   gulp.watch(`${inputAssets}/fonts/**/*.*`, gulp.series('fonts'));
   gulp.watch(`${inputAssets}/imgs/**/*.*`, gulp.series('pics'));
+  gulp.watch([`${inputScripts}`, `${frontend}/components/**/*.js`], gulp.series('scripts'));
   done();
 });
 
 
 gulp.task('default', gulp.series(
   'clean',
-    gulp.parallel('styles', 'layouts', 'fonts', 'pics'),
+    gulp.parallel('styles', 'layouts', 'fonts', 'pics', 'scripts'),
   'connect',
   'watch'), (done) => {
   done();

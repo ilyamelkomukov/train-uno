@@ -3,7 +3,7 @@
   text-align: center;
   color: @main-text-color;
   height: 100vh;
-  width: auto;
+  width: 100%;
   background: url(/assets/imgs/hero.jpg) center center / cover rgb(238, 182, 85);
 }
 
@@ -14,7 +14,6 @@
   transform: translateY(-50%);
 
   &::selection {
-    color: @info-text-color;
-    background-color: @main-text-color;
+    &:extend(.selected-text);
   }
 }
