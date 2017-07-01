@@ -122,7 +122,7 @@ gulp.task('scripts', () => {
         filename: isDev ? '[name].js' : '[name]-[hash].js'
       }
     }, webpack))
-    .pipe(gulpIf(!isDev, uglify()))
+    // .pipe(gulpIf(!isDev, uglify()))
     .pipe(gulp.dest(outputScripts));
 });
 /***** end of Scripts task *****/
