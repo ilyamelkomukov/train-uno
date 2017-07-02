@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: check the jquery cdn falldown
+
 var isDev = process.env.NODE_ENV == 'development';
 
 /***** start of Gulp plugins *****/

@@ -69,3 +69,69 @@
     &:extend(.selected-text);
   }
 }
+
+.navbar-toggle-wrapper {
+  .fontSize(45, 14);
+  width: @fontSize;
+  height: 36 / 14 * 1em; // need to do this, cause the @fontSize var is already exist
+  padding: 10 / 14 * 1em;
+  cursor: pointer;
+}
+
+.navbar-toggle {
+  .fontSize(25, 14);
+  width: @fontSize;
+  position: relative;
+  height: 16 / 14 * 1em; // need to do this, cause the @fontSize var is already exist
+}
+
+.navbar-toggle__dash {
+  .fontSize(2, 14);
+  height: @fontSize;
+  width: 100%;
+  position: absolute;
+  background-color: @main-text-color;
+}
+
+.navbar-toggle-wrapper_clicked .navbar-toggle__dash_inverse {
+  background-color: @inverse-text-color;
+}
+
+.navbar-toggle__dash_top {
+  top: 0;
+  &:extend(.dash-transition);
+}
+
+.navbar-toggle__dash_middle {
+  top: 50%;
+  transform: translateY(-50%);
+  transform-style: preserve-3d;
+  transition: transform .3s ease-out;
+}
+
+.navbar-toggle__dash_middle_clockwise {
+  transform: translateY(-50%),
+    rotateZ(45deg);
+}
+
+.navbar-toggle__dash_middle_conter-clockwise {
+  transform: translateY(-50%),
+    rotateZ(-45deg);
+}
+
+.navbar-toggle__dash_bottom {
+  bottom: 0;
+  &:extend(.dash-transition);
+}
+
+.dash-transition {
+  transition: opacity .3s ease-out;
+}
+
+.navbar-toggle-wrapper_clicked {
+  .navbar-toggle__dash_top, .navbar-toggle__dash_bottom {
+    opacity: 0;
+  }
+
+
+}
