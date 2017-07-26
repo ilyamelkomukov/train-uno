@@ -1,6 +1,10 @@
 'use strict';
 
 // TODO: check the jquery cdn falldown
+// ans: checked, need create separate script that adds jquery.js file and
+  // script tag before main.js
+  // done
+// TODO: check the "jumping" Billboard text when navbar toggle clicked
 
 var isDev = process.env.NODE_ENV == 'development';
 
@@ -98,6 +102,11 @@ gulp.task('scripts', () => {
 
   gulp.src(`${inputScripts}/jquery.js`, {since: gulp.lastRun('scripts')})
     .pipe(gulp.dest(outputScripts));
+
+    gulp.src(`${inputScripts}/other/jqueryFalldown.js`, {since: gulp.lastRun('scripts')})
+      .pipe(gulp.dest(outputScripts));
+
+
 
   return gulp.src(`${inputScripts}/main.js`)
     .pipe(gulpWebpack({

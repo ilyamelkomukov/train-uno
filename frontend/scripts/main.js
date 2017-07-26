@@ -1,8 +1,6 @@
 'use strict';
 
-console.log('Hello js');
+import navbar from '../components/Nav/Nav.js';
 
-// if a cdn jquery isn`t available
-if (!window.JQuery) {
-  document.write("<script src='/scripts/jquery.js'></script>");
-}
+navbar.makeNavbarToggleable();
+navbar.makeNavbarScrollable();
