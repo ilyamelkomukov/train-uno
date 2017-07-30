@@ -37,14 +37,24 @@
 .navbar__logo {
 }
 
+.navs-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .navs {
+  display: flex;
+  align-items: center;
+
   .fontSize(14, 100);
   font: normal @fontSize 'Open Sans', sans-serif;
   list-style: none;
-  display: flex;
-  align-items: center;
   // need this cause of initial value
   -webkit-padding-start: 0;
+
+  @media (max-width: 320px) {
+    flex-direction: column;
+  }
 }
 
 .navs__nav-item {
@@ -83,22 +93,26 @@
 }
 
 .navbar-toggle-wrapper {
-  .fontSize(45, 14);
+  .fontSize(45, 100);
   width: @fontSize;
-  height: 36 / 14 * 1em; // need to do this, cause the @fontSize var is already exist
-  padding: 10 / 14 * 1em;
+  height: 36 / 100 * 1em; // need to do this, cause the @fontSize var is already exist
+  padding: 10 / 100 * 1em;
   cursor: pointer;
+
+  @media (max-width: 320px) {
+    align-self: stretch;
+  }
 }
 
 .navbar-toggle {
-  .fontSize(25, 14);
+  .fontSize(25, 100);
   width: @fontSize;
   position: relative;
-  height: 16 / 14 * 1em; // need to do this, cause the @fontSize var is already exist
+  height: 16 / 100 * 1em; // need to do this, cause the @fontSize var is already exist
 }
 
 .navbar-toggle__dash {
-  .fontSize(2, 14);
+  .fontSize(2, 100);
   height: @fontSize;
   width: 100%;
   position: absolute;
@@ -116,7 +130,7 @@
   transform: translateY(-50%);
   transform-style: preserve-3d;
   transition: transform .3s ease-out,
-    background-color .3s ease-out;
+    background-color .3s ease-out .15s;
 }
 
 .navbar-toggle__dash_middle_clockwise {
@@ -133,7 +147,8 @@
 
 .dash-transition-transform {
   /*this transition means that we get to that state in .3s with delay*/
-  transition: transform .3s ease-out .26s;
+  transition: transform .3s ease-out .26s,
+    background-color .3s ease-out;
 }
 
 .navbar-toggle__dash_bottom {
@@ -143,10 +158,10 @@
 
 .dash-transition-opacity {
   transition: opacity .3s ease-out .15s,
-    background-color .3s ease-out;
+    background-color .3s ease-out .15s;
 }
 
-.navbar-toggle-wrapper_clicked {
+.navbar-toggle-wrapper_open {
   .navbar-toggle__dash_top, .navbar-toggle__dash_bottom {
     opacity: 0;
   }

@@ -5,6 +5,11 @@
   // script tag before main.js
   // done
 // TODO: check the "jumping" Billboard text when navbar toggle clicked
+// ANS: checked, browser rendering, in Chrome and FF it`s ok, in
+// Opera sometimes a little bit blur
+// TODO: fix the middle dash in navbar transition, make navbar responsive
+// ANS: middle dash fixed (added delay)
+// TODO: decide is need to show menu items (usually they are hidden at start)
 
 var isDev = process.env.NODE_ENV == 'development';
 
