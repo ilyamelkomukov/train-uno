@@ -10,6 +10,10 @@
 // TODO: fix the middle dash in navbar transition, make navbar responsive
 // ANS: middle dash fixed (added delay)
 // TODO: decide is need to show menu items (usually they are hidden at start)
+// ANS: menu items should be hidden at start (like on other resources)
+// TODO: explore usage of bower for normalize.css
+// TODO: decide about normalize or reset, pay attention at -webkit-margin-before:
+// TODO: make the navbar items showing-up suitable on small screens
 
 var isDev = process.env.NODE_ENV == 'development';
 

@@ -21,7 +21,7 @@ const navbar = {
           .toggleClass('navbar-toggle__dash_middle_clockwise')
           .end()
         .eq(2)
-          .toggleClass('navbar-toggle__dash_middle_conter-clockwise');
+          .toggleClass('navbar-toggle__dash_middle_counter-clockwise');
 
       // write like this, cause of .css() func work more properly with
       // full css name. In styles transition property also writed in
