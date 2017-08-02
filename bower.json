@@ -1,0 +1,21 @@
+{
+  "name": "train-uno",
+  "description": "train with uno template",
+  "main": "index.js",
+  "authors": [
+    "ilyamelkomukov"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "normalize.css#^7.0.0"
+  }
+}
