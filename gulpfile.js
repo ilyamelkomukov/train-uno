@@ -12,8 +12,22 @@
 // TODO: decide is need to show menu items (usually they are hidden at start)
 // ANS: menu items should be hidden at start (like on other resources)
 // TODO: explore usage of bower for normalize.css
+// ANS: it`s more usefull to use cdn
 // TODO: decide about normalize or reset, pay attention at -webkit-margin-before:
+// ANS: normalize.css contains more rules and sometimes maintained
+// unlike of reset.css. However nor normalize.css or reset.css
+// contains rules for -webkit-margin-before or like this
 // TODO: make the navbar items showing-up suitable on small screens
+// ANS: in progress, decide to manipulate the ul height (first, to set it)
+// TODO: make clearfix through adding class clearfix, not to adding rules to
+// existing classes
+// ANS: done
+// TODO: finded out that css transitions doesn`t support by IE9,
+// so we need to use the anime.css or GSAP for all animations
+// ANS: anime.js is lightweight, but perfomance is almost like jQuery,
+// gsap is something 60-70kb, but is perfarmant and we can chooze what to
+// download
+// TODO: TEst in IE (margins ul, boldness when transforming, fonts loading, etc.)
 
 var isDev = process.env.NODE_ENV == 'development';
 

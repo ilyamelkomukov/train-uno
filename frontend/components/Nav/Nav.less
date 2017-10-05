@@ -4,18 +4,26 @@
   width: 100%;
   height: 1em;
   position: absolute;
-  padding: 0 5%;
   background-color: transparent;
   color: @main-text-color;
   font: bold @fontSize 'Honey Script';
+  text-align: center;
 
-    &:after {
-    content: "";
-    display: table;
-    clear: both;
+  @media all and (max-width: 655px) {
+    position: fixed;
+    background-color: @main-text-color;
+    color: @inverse-text-color;
+    transition: background-color .1s ease-out;
   }
-}
 
+  // no need to use clearfix here, cause height was set above
+  //   &:after {
+  //   content: "";
+  //   display: table;
+  //   clear: both;
+  // }
+
+}
 .navbar_fixed {
   position: fixed;
   background-color: @main-text-color;
@@ -41,17 +49,29 @@
 }
 
 .navbar__logo {
+  padding-left: 2%;
   position: relative;
   &:extend(.centering-vertical);
 }
 
-.navs-wrapper {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-}
+// .navs-wrapper {
+//   display: flex;
+//   align-items: center;
+//   flex-wrap: nowrap;
+// }
 
 .navbar__navs {
+  @media all and (max-width: 655px) {
+    // avoid .centering-vertical
+    top: 0%;
+    transform: translate3d(0,0,0);
+    position: absolute;
+    top: 100%;
+    width: 100%;
+  }
+
+  // need to use .centering-vertical without @mdia scope,
+  //  cause of :extend ignores different @media scopes
   position: relative;
   &:extend(.centering-vertical);
 }
@@ -71,6 +91,9 @@
 
   @media (min-width: 320px) and (max-width: 655px) {
     flex-direction: column;
+    overflow: hidden;
+    .fontSize(280, 14);
+    height: @fontSize;
   }
 }
 
@@ -86,9 +109,21 @@
   // on elem index. Shorthand style will override calculated prop. If we set
   // delay after adding this class to elem - delay will be added after second
   // show stage, that`s unacceptable
-  transition-property: all;
-  transition-duration: .4s;
-  transition-timing-function: ease-out;
+  // transition-property: all;
+  // transition-duration: .4s;
+  // transition-timing-function: ease-out;
+
+  /* lets make it with css not with jQuery */
+  transition: .4s all ease-out;
+  .delay-nav-items(5);
+
+  .delay-nav-items(@n, @i: 1) when (@i <= @n) {
+    &:nth-of-type(@{i}) {
+      transition-delay: (@i * 2) * 100ms;
+    }
+    .delay-nav-items(@n, (@i + 1));
+  }
+  /* we did it only with css without jQuery */
 
   &_seo-friendly-hide {
     transform: translate3d(0, -100%, 0);
@@ -96,9 +131,11 @@
     visibility: hidden;
   }
 
-  @media (max-width: 320px) {
+  @media all and (min-width: 320px) and (max-width: 655px) {
     padding: 0;
-    // visibility: hidden;
+    width: 100%;
+    background-color: @main-text-color;
+    border-top: 1px solid @inverse-text-color;
   }
 }
 
@@ -108,6 +145,12 @@
   color: inherit;
   .fontSize(10, 14);
   padding: @fontSize;
+
+  @media all and (min-width: 320px) and (max-width: 655px) {
+    width: 100%;
+    .fontSize(55, 14);
+    height: @fontSize;
+  }
 
   &::selection {
     &:extend(.selected-text);
@@ -140,6 +183,10 @@
   position: absolute;
   background-color: @main-text-color;
   transition: .3s background-color ease-out;
+
+  @media all and (max-width: 655px) {
+    background-color: @inverse-text-color;
+  }
 }
 
 .navbar-toggle__dash_top {

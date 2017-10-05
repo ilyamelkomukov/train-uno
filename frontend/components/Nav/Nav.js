@@ -27,16 +27,7 @@ const navbar = {
       // full css name. In styles transition property also writed in
       // longhand style, cause of css cascading and shorthand prop style
       $('.nav-item')
-        .css('transition-delay', function (index, oldValue) {
-          return `${.2 * index}s`;
-        })
-        .toggleClass('nav-item_seo-friendly-hide')
-        // avoiding making redundant transition-delay after every click
-        .css('transition-delay', function (index, oldValue) {
-          if ( (oldValue !== '0s') && !$(this).hasClass('nav-item_seo-friendly-hide') ) {
-            return '';
-          }
-        });
+        .toggleClass('nav-item_seo-friendly-hide');
     });
   },
 
